@@ -1,6 +1,7 @@
 use axum::{
     routing::get,
     Router,
+    extract::Path
 };
 
 #[tokio::main(flavor = "current_thread")]
@@ -17,13 +18,10 @@ async fn main() {
         .unwrap();
 }
 async fn hello() -> String {
-    format!("hello world")
+    format!("hello, world")
 }
 
-async fn get_name(
-        axum::extract::Path(name):
-        axum::extract::Path<String>
-) -> String {
-    format!("hello {}", name)
+async fn get_name( Path(name): Path<String> ) -> String {
+    format!("hello, {}", name)
 }
 
