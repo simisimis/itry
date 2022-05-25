@@ -5,12 +5,10 @@ use axum::{
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
-    // build our application with a single route
-    //let app = Router::new().route("/", get(|| async { "Hello, World!" }));
-    // our router
+    // router
     let app = Router::new()
     .route("/hello", get(hello))
-    .route("/simonas", get(get_simonas));
+    .route("/hello/:name", get(get_name));
 
     // run it with hyper on localhost:3000
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
@@ -22,7 +20,10 @@ async fn hello() -> String {
     format!("hello world")
 }
 
-async fn get_simonas() -> String {
-    format!("hello simonas!")
+async fn get_name(
+        axum::extract::Path(name):
+        axum::extract::Path<String>
+) -> String {
+    format!("hello {}", name)
 }
 
